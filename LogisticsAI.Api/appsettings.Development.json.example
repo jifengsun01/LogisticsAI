@@ -1,0 +1,11 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning",
+      "LogisticsAI.Api.Services.GroqAgentService": "Debug"
+    }
+  },
+  "DATABASE_URL": "Host=localhost;Database=logistics_ai;Username=postgres;Password=yourpassword",
+  "GROQ_API_KEY": "your_groq_key_here"
+}
