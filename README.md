@@ -61,6 +61,50 @@ npm run dev
 
 UI runs at `http://localhost:5173`.
 
+## Troubleshooting
+
+### Database / Docker
+
+**Check if the PostgreSQL container is running:**
+```powershell
+docker ps --filter "name=logistics-postgres"
+```
+
+**Start the container (if it exists but is stopped):**
+```powershell
+docker start logistics-postgres
+```
+
+**Check what is listening on port 5432:**
+```powershell
+netstat -ano | findstr :5432
+```
+
+**Identify processes by PID** (replace `<PID>` with values from above):
+```powershell
+Get-Process -Id <PID> | Select-Object Id, Name, Path
+```
+
+**Port conflict — local PostgreSQL service competing with Docker:**
+
+If a local PostgreSQL Windows service (e.g. `postgresql-x64-17`) is already on port 5432, stop it in an elevated PowerShell (Run as Administrator):
+```powershell
+Stop-Service -Name postgresql-x64-17
+Set-Service -Name postgresql-x64-17 -StartupType Disabled
+```
+
+**Alternative — run Docker on port 5433 to avoid conflicts:**
+```powershell
+docker run -d `
+  --name logistics-postgres `
+  -e POSTGRES_USER=postgres `
+  -e POSTGRES_PASSWORD=postgres `
+  -e POSTGRES_DB=logistics_ai `
+  -p 5433:5432 `
+  postgres:16
+```
+Then update the connection string in `LogisticsAI.Api/appsettings.Development.json` to use `Port=5433`.
+
 ## API Endpoints
 
 | Method | Path | Description |
