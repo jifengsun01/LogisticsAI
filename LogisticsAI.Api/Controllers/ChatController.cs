@@ -13,8 +13,8 @@ public class ChatController(IAgentService agent, AppDbContext db) : ControllerBa
     public record ChatRequest(string SessionId, string Message);
     public record MessageDto(Guid Id, string Role, string Content, int? TokensUsed, DateTime CreatedAt);
 
-    // POST /api/chat
-    [HttpPost]
+    // POST /api/chat/messages
+    [HttpPost("messages")]
     public async Task<IActionResult> Chat([FromBody] ChatRequest request)
     {
         if (string.IsNullOrWhiteSpace(request.Message))
