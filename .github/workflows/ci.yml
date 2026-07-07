@@ -46,7 +46,6 @@ jobs:
 
       - name: Run tests
         run: dotnet test --no-build --configuration Release --verbosity normal
-        continue-on-error: true
 
   ui:
     name: Build UI
